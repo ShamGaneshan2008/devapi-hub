@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{% block title %}DevAPI Hub{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+
+<!-- Cinematic transition panels (built by JS) -->
+<div id="page-transition"></div>
+
+<!-- Ambient orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- Nav -->
+<nav>
+  <a href="/" class="nav-logo">
+    Dev<span class="logo-accent">API</span> Hub
+    <span class="logo-dot"></span>
+  </a>
+  <div class="nav-links">
+    <a href="/">Browse</a>
+    <a href="/about">About</a>
+    {% if session.get('user') %}
+      <a href="/dashboard">Dashboard</a>
+      <a href="/api_test">Console</a>
+      {% if session.get('is_admin') %}
+        <span class="badge-admin">👑 Admin</span>
+      {% endif %}
+      <a href="/logout" class="btn-nav">Logout</a>
+    {% else %}
+      <a href="/login">Login</a>
+      <a href="/register" class="btn-nav">Register</a>
+    {% endif %}
+  </div>
+</nav>
+
+<div class="page-enter">
+  {% block content %}{% endblock %}
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

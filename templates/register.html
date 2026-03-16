@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Register — DevAPI Hub</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+<div id="page-transition"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="auth-container">
+  <div class="auth-box">
+    <a href="/" class="auth-logo">Dev<span class="logo-accent">API</span> Hub</a>
+    <p class="auth-subtitle">Create your developer account — it's free</p>
+
+    {% if error %}
+    <div class="alert alert-error">⚠ {{ error }}</div>
+    {% endif %}
+
+    <form method="POST">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="your_handle" autocomplete="off" required/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Min. 6 characters" required/>
+      </div>
+      <button type="submit" class="btn btn-primary btn-full mt-2">Create Account →</button>
+    </form>
+
+    <div class="divider"></div>
+    <p class="text-dim text-xs" style="text-align:center;">
+      Already have an account? <a href="/login" class="text-cyan" style="text-decoration:none;">Sign in</a>
+    </p>
+  </div>
+</div>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

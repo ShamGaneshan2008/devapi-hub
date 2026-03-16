@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}DevAPI Hub — Discover Developer APIs{% endblock %}
+
+{% block content %}
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero stagger">
+    <div class="hero-eyebrow">Live Platform</div>
+    <h1>
+      Discover &amp; Test<br>
+      <span class="gradient-text" id="hero-type">Developer APIs</span>
+      <span class="type-cursor"></span>
+    </h1>
+    <p class="hero-sub">
+      Browse community-published APIs, fire test requests from your browser, and manage your keys — all in one sleek platform.
+    </p>
+    {% if not session.get('user') %}
+    <div class="flex gap-1">
+      <a href="/register" class="btn btn-primary">Get Started →</a>
+      <a href="/login" class="btn btn-ghost">Sign In</a>
+    </div>
+    {% else %}
+    <div class="flex gap-1">
+      <a href="/add_api" class="btn btn-primary">+ Publish API</a>
+      <a href="/api_test" class="btn btn-ghost">Open Console</a>
+    </div>
+    {% endif %}
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-item">
+        <span class="stat-num" data-val="{{ apis|length }}">0</span>
+        <span class="stat-label">APIs Published</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-val="{{ apis|sum(attribute='views') }}">0</span>
+        <span class="stat-label">Total Views</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num" data-val="{{ apis|sum(attribute='rating_count') }}">0</span>
+        <span class="stat-label">Ratings Given</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Search + Filters -->
+  <div class="stagger mb-3">
+    <div class="search-wrap mb-2">
+      <span class="search-icon">⌕</span>
+      <input type="search" id="api-search" placeholder="Search APIs by name, description, or endpoint..."/>
+    </div>
+
+    <div class="flex items-center justify-between flex-wrap gap-1">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-cat="all">All</button>
+        <button class="filter-tab" data-cat="weather">Weather</button>
+        <button class="filter-tab" data-cat="finance">Finance</button>
+        <button class="filter-tab" data-cat="ai">AI</button>
+        <button class="filter-tab" data-cat="maps">Maps</button>
+        <button class="filter-tab" data-cat="other">Other</button>
+      </div>
+      <span class="text-dim font-mono text-xs" id="api-count">{{ apis|length }} results</span>
+    </div>
+  </div>
+
+  <!-- API Grid -->
+  {% if apis %}
+  <div class="grid-2 stagger" id="api-grid">
+    {% for api in apis %}
+    <a href="/api/{{ api.id }}" class="api-card-item" data-cat="other" style="text-decoration:none; color:inherit; display:block;">
+      <div class="card" style="height:100%;">
+        <div class="flex items-center justify-between mb-1">
+          <div class="flex items-center gap-1">
+            <span class="cat-dot cat-other"></span>
+            <h3>{{ api.name }}</h3>
+          </div>
+          <span class="badge badge-cyan" style="font-size:0.62rem;">API</span>
+        </div>
+        <p class="text-muted text-sm mb-2" style="line-height:1.55; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">{{ api.description }}</p>
+        <div class="code-block" style="font-size:0.7rem; padding:7px 12px; margin-bottom:1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ api.endpoint }}</div>
+        <div class="flex items-center justify-between">
+          <div class="flex gap-1 items-center">
+            <span class="stars" style="font-size:0.8rem;">{% for i in range(api.rating|int) %}★{% endfor %}{% for i in range(5 - api.rating|int) %}☆{% endfor %}</span>
+            <span class="text-dim" style="font-size:0.7rem; font-family:var(--mono);">({{ api.rating_count }})</span>
+          </div>
+          <div class="flex gap-1 items-center">
+            <span class="stat">👁 {{ api.views }}</span>
+            <span class="text-dim" style="font-size:0.65rem;">·</span>
+            <a href="/developer/{{ api.owner }}" class="text-cyan" style="font-size:0.75rem; font-family:var(--mono); text-decoration:none;" onclick="event.stopPropagation()">@{{ api.owner }}</a>
+          </div>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <!-- Search empty state -->
+  <div id="search-empty" class="empty" style="display:none;">
+    <div class="empty-icon">🔍</div>
+    <p>No APIs match your search.</p>
+  </div>
+
+  {% else %}
+  <div class="empty">
+    <div class="empty-icon">📦</div>
+    <p>No APIs published yet. Be the first!</p>
+    {% if session.get('user') %}
+    <a href="/add_api" class="btn btn-primary btn-sm mt-2">Publish an API →</a>
+    {% else %}
+    <a href="/register" class="btn btn-primary btn-sm mt-2">Register to publish →</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

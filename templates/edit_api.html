@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ api.name }} — DevAPI Hub{% endblock %}
+
+{% block content %}
+<div class="page">
+  <div style="max-width:600px; margin:0 auto;">
+
+    <a href="/dashboard" class="text-dim font-mono text-xs" style="text-decoration:none;">← Back to Dashboard</a>
+
+    <div class="stagger" style="margin: 1.5rem 0 2rem;">
+      <div class="hero-eyebrow" style="display:inline-flex; margin-bottom:1rem;">Edit</div>
+      <h1>Edit API</h1>
+      <p class="text-muted text-sm mt-1">Update your published API listing.</p>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error">⚠ {{ error }}</div>
+    {% endif %}
+
+    <div class="card reveal">
+      <form method="POST">
+
+        <div class="form-group">
+          <label>API Name</label>
+          <input type="text" name="name" value="{{ api.name }}" required/>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="description" required>{{ api.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Endpoint URL</label>
+          <input type="text" name="endpoint" value="{{ api.endpoint }}" required/>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select name="category">
+            {% for cat in ['weather','finance','ai','maps','data','other'] %}
+            <option value="{{ cat }}" {% if api.category == cat %}selected{% endif %}>
+              {{ cat|capitalize }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="flex gap-1 mt-2">
+          <button type="submit" class="btn btn-primary">Save Changes →</button>
+          <a href="/dashboard" class="btn btn-ghost">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

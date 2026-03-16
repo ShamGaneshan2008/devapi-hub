@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block title %}{{ api.name }} — DevAPI Hub{% endblock %}
+
+{% block content %}
+<div class="page">
+  <div style="max-width:760px; margin:0 auto;">
+
+    <a href="/" class="text-dim font-mono text-xs" style="text-decoration:none;">← Browse APIs</a>
+
+    <!-- Header -->
+    <div class="stagger" style="margin: 1.5rem 0 2rem;">
+      <div class="flex items-center gap-1 mb-2" style="flex-wrap:wrap;">
+        <span class="badge badge-cyan">API</span>
+        <a href="/developer/{{ api.owner }}" class="text-dim font-mono text-xs" style="text-decoration:none;">@{{ api.owner }}</a>
+        {% if owner_is_admin %}<span class="badge-admin">👑 Admin</span>{% endif %}
+      </div>
+      <h1>{{ api.name }}</h1>
+      <p class="text-muted mt-1" style="font-size:0.95rem; max-width:520px; line-height:1.65;">{{ api.description }}</p>
+    </div>
+
+    <!-- Stats row -->
+    <div class="grid-3 mb-3 stagger">
+      <div class="card" style="text-align:center; padding:1.2rem;">
+        <div class="stat-num" style="font-size:1.6rem;">{{ api.views }}</div>
+        <div class="text-dim text-xs mt-1">Total Views</div>
+      </div>
+      <div class="card" style="text-align:center; padding:1.2rem;">
+        <div class="stat-num" style="font-size:1.6rem;">{{ api.rating }}</div>
+        <div class="text-dim text-xs mt-1">Avg Rating / 5</div>
+      </div>
+      <div class="card" style="text-align:center; padding:1.2rem;">
+        <div class="stat-num" style="font-size:1.6rem;">{{ api.rating_count }}</div>
+        <div class="text-dim text-xs mt-1">Ratings Given</div>
+      </div>
+    </div>
+
+    <!-- Endpoint -->
+    <div class="card mb-2 reveal">
+      <h2 class="mb-2">Endpoint</h2>
+      <div style="position:relative;">
+        <div class="code-block">{{ api.endpoint }}</div>
+        <button class="copy-btn" onclick="copyText('{{ api.endpoint }}', this)">Copy</button>
+      </div>
+    </div>
+
+    <!-- Rating -->
+    <div class="card mb-2 reveal">
+      <div class="flex items-center justify-between" style="flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 class="mb-1">Community Rating</h2>
+          <div class="flex items-center gap-1">
+            <span class="stars" style="font-size:1.2rem;">
+              {% for i in range(api.rating|int) %}★{% endfor %}{% for i in range(5 - api.rating|int) %}☆{% endfor %}
+            </span>
+            <span class="text-dim font-mono text-xs">{{ api.rating }}/5 · {{ api.rating_count }} ratings</span>
+          </div>
+        </div>
+        {% if session.get('user') %}
+        <a href="/rate/{{ api.id }}" class="btn btn-ghost btn-sm">Rate this API ⭐</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex gap-1 mb-3 reveal">
+      <a href="/api_test" class="btn btn-primary">Test in Console →</a>
+      <a href="/developer/{{ api.owner }}" class="btn btn-ghost">@{{ api.owner }}'s APIs</a>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Comments -->
+    <div style="margin-top:1.5rem;">
+      <div class="section-header mb-3">
+        <span class="section-title">Discussion</span>
+        <span class="text-dim font-mono text-xs">{{ comments|length }} comment{% if comments|length != 1 %}s{% endif %}</span>
+      </div>
+
+      <!-- Comment form -->
+      {% if session.get('user') %}
+      <div class="comment-input mb-3">
+        <div class="flex items-center gap-1 mb-2">
+          <span class="text-cyan font-mono text-xs">@{{ session.user }}</span>
+          {% if session.get('is_admin') %}<span class="badge-admin" style="font-size:0.62rem; padding:2px 8px;">👑 Admin</span>{% endif %}
+        </div>
+        <form method="POST" action="/comment/{{ api.id }}">
+          <div class="form-group" style="margin-bottom:0.75rem;">
+            <textarea name="body" placeholder="Ask a question, share tips, or give feedback..." required style="min-height:75px;"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-sm">Post Comment →</button>
+        </form>
+      </div>
+      {% else %}
+      <div style="padding:1.2rem; border:1px dashed var(--border2); border-radius:var(--radius); margin-bottom:1.5rem; text-align:center;">
+        <span class="text-dim text-sm">
+          <a href="/login" class="text-cyan" style="text-decoration:none;">Sign in</a> to leave a comment.
+        </span>
+      </div>
+      {% endif %}
+
+      <!-- Comments list -->
+      {% if comments %}
+        {% for c in comments %}
+        <div class="comment">
+          <div class="comment-header">
+            <div class="comment-author">
+              <span class="text-cyan">@{{ c.username }}</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="comment-time">{{ c.created_at }}</span>
+              {% if session.get('is_admin') %}
+              <a href="/delete_comment/{{ c.id }}"
+                 onclick="return confirm('Delete this comment?')"
+                 class="btn btn-danger btn-sm"
+                 style="padding:2px 10px; font-size:0.68rem; margin-left:4px;">✕</a>
+              {% endif %}
+            </div>
+          </div>
+          <p class="comment-body">{{ c.body }}</p>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="empty" style="padding:2.5rem;">
+          <div class="empty-icon">💬</div>
+          <p>No comments yet. Start the discussion!</p>
+        </div>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+1. Browser sends request to /dashboard
+2. app.py receives it, finds dashboard_bp handles it
+3. @login_required checks: is "user" in session?
+   → No?  Redirect to /login
+   → Yes? Continue
+4. dashboard() function runs
+5. get_db() opens database.db
+6. SQL query fetches user's APIs and logs
+7. render_template() fills in dashboard.html with that data
+8. Browser receives the finished HTML page
+
+
+
+
+

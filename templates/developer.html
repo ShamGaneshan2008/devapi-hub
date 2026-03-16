@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}@{{ name }} — DevAPI Hub{% endblock %}
+
+{% block content %}
+<div class="page">
+
+  <a href="/" class="text-dim font-mono text-xs" style="text-decoration:none;">← Browse</a>
+
+  <div class="stagger" style="margin: 1.5rem 0 2.5rem;">
+    <p class="text-dim font-mono text-xs mb-1" style="text-transform:uppercase; letter-spacing:0.1em;">Developer Profile</p>
+    <div class="flex items-center gap-2 mb-1" style="flex-wrap:wrap;">
+      <h1>@{{ name }}</h1>
+      {% if is_admin %}<span class="badge-admin" style="font-size:0.8rem; padding:5px 14px;">👑 Admin</span>{% endif %}
+    </div>
+    <p class="text-dim text-sm">{{ apis|length }} published API{% if apis|length != 1 %}s{% endif %}</p>
+  </div>
+
+  {% if apis %}
+  <div class="grid-2 stagger">
+    {% for api in apis %}
+    <a href="/api/{{ api.id }}" style="text-decoration:none; color:inherit; display:block;">
+      <div class="card">
+        <div class="flex items-center justify-between mb-1">
+          <h3>{{ api.name }}</h3>
+          <span class="badge badge-cyan" style="font-size:0.6rem;">API</span>
+        </div>
+        <p class="text-muted text-sm mb-2" style="line-height:1.5; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">{{ api.description }}</p>
+        <div class="code-block" style="font-size:0.7rem; padding:7px 12px; margin-bottom:0.75rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ api.endpoint }}</div>
+        <div class="flex gap-2">
+          <span class="stat">👁 {{ api.views }}</span>
+          <span class="stat">⭐ {{ api.rating }}/5</span>
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">
+    <div class="empty-icon">📭</div>
+    <p>This developer hasn't published any APIs yet.</p>
+  </div>
+  {% endif %}
+
+</div>
+{% endblock %}

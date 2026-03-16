@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Your API Key — DevAPI Hub{% endblock %}
+
+{% block content %}
+<div class="page">
+  <div style="max-width:580px; margin:0 auto;">
+
+    <a href="/dashboard" class="text-dim font-mono text-xs" style="text-decoration:none;">← Dashboard</a>
+
+    <div class="stagger" style="margin: 1.5rem 0 2rem;">
+      <h1>Your API Key</h1>
+      <p class="text-muted text-sm mt-1">Keep this private. Use it to authenticate requests on this platform.</p>
+    </div>
+
+    <div class="card card-glow mb-2 reveal">
+      <div class="flex items-center justify-between mb-2">
+        <h2>Active Key</h2>
+        <span class="badge badge-green">● Active</span>
+      </div>
+      <div style="position:relative;">
+        <div class="key-display" id="key-value">{{ key }}</div>
+        <button class="copy-btn" id="copy-key-btn" onclick="copyKey()">Copy</button>
+      </div>
+    </div>
+
+    <div class="card reveal">
+      <h2 class="mb-2">How to use it</h2>
+      <div class="code-block" style="position:relative;">
+GET /api/weather?key={{ key }}
+        <button class="copy-btn" onclick="copyText('http://127.0.0.1:5000/api/weather?key={{ key }}', this)">Copy</button>
+      </div>
+      <p class="text-dim mt-2" style="font-size:0.75rem; font-family:var(--mono);">
+        Append <span class="text-cyan">?key=YOUR_KEY</span> to any protected endpoint.
+      </p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

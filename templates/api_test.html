@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% block title %}API Console — DevAPI Hub{% endblock %}
+
+{% block content %}
+<div class="page">
+
+  <div class="stagger" style="margin-bottom:2rem;">
+    <div class="hero-eyebrow" style="display:inline-flex; margin-bottom:1rem;">Developer Tools</div>
+    <h1>API Test Console</h1>
+    <p class="text-muted text-sm mt-1">Fire GET requests and inspect live responses with timing + headers.</p>
+  </div>
+
+  <!-- Request builder -->
+  <div class="card card-glow mb-3 reveal">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="badge badge-green" style="font-size:0.65rem;">GET</span>
+      <span class="text-dim font-mono text-xs">HTTP Request</span>
+    </div>
+    <form method="POST">
+      <div class="flex gap-1" style="align-items:stretch;">
+        <input
+          type="text"
+          name="endpoint"
+          id="endpoint-input"
+          placeholder="http://127.0.0.1:5000/api/weather?key=YOUR_KEY"
+          value="{{ endpoint }}"
+          style="flex:1;"
+          required
+        />
+        <button type="submit" class="btn btn-primary" style="white-space:nowrap; flex-shrink:0;">Send →</button>
+      </div>
+      <p class="text-dim font-mono mt-1" style="font-size:0.7rem;">GET only · URL must start with http:// or https://</p>
+    </form>
+  </div>
+
+  {% if error %}
+  <div class="alert alert-error mb-2">⚠ {{ error }}</div>
+  {% endif %}
+
+  {% if result %}
+  <div class="reveal mb-3">
+    <!-- Response meta bar -->
+    <div class="flex items-center gap-2 mb-1" style="flex-wrap:wrap;">
+      <span class="section-title">Response</span>
+      {% if status %}
+      <span class="badge {% if status == 200 %}badge-green{% elif status < 300 %}badge-cyan{% else %}badge-magenta{% endif %}"
+            style="font-size:0.65rem;">
+        {{ status }}
+      </span>
+      {% endif %}
+      {% if elapsed %}
+      <span class="text-dim font-mono text-xs">{{ elapsed }}ms</span>
+      {% endif %}
+    </div>
+
+    <!-- Response headers -->
+    {% if headers %}
+    <div class="card mb-1" style="padding:0.75rem 1rem;">
+      <p class="text-dim font-mono text-xs mb-1" style="text-transform:uppercase; letter-spacing:0.08em;">Response Headers</p>
+      {% for k, v in headers.items() %}
+      <div style="font-family:var(--mono); font-size:0.72rem; padding:2px 0;">
+        <span class="text-cyan">{{ k }}:</span>
+        <span class="text-muted"> {{ v }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <pre>{{ result }}</pre>
+  </div>
+  {% endif %}
+
+  <div class="divider"></div>
+
+  <!-- Available built-in APIs -->
+  <div class="section-header mb-2">
+    <span class="section-title">Built-in APIs to Try</span>
+  </div>
+
+  <div class="grid-3 stagger">
+    <div class="card" style="padding:1rem;">
+      <div class="flex items-center gap-1 mb-1">
+        <span class="cat-dot cat-weather"></span>
+        <h3>Weather</h3>
+      </div>
+      <div class="code-block" style="font-size:0.68rem; padding:6px 10px; margin:0.5rem 0; position:relative;">
+/api/weather?key=YOUR_KEY
+        <button class="copy-btn" style="top:4px; right:4px;"
+          onclick="copyText('http://127.0.0.1:5000/api/weather?key={{ session.api_key }}', this)">Copy</button>
+      </div>
+      <p class="text-dim text-xs">Returns live weather data for London.</p>
+    </div>
+
+    <div class="card" style="padding:1rem;">
+      <div class="flex items-center gap-1 mb-1">
+        <span class="cat-dot cat-other"></span>
+        <h3>Random Joke</h3>
+      </div>
+      <div class="code-block" style="font-size:0.68rem; padding:6px 10px; margin:0.5rem 0; position:relative;">
+/api/joke?key=YOUR_KEY
+        <button class="copy-btn" style="top:4px; right:4px;"
+          onclick="copyText('http://127.0.0.1:5000/api/joke?key={{ session.api_key }}', this)">Copy</button>
+      </div>
+      <p class="text-dim text-xs">Returns a random dev joke.</p>
+    </div>
+
+    <div class="card" style="padding:1rem;">
+      <div class="flex items-center gap-1 mb-1">
+        <span class="cat-dot cat-ai"></span>
+        <h3>My Status</h3>
+      </div>
+      <div class="code-block" style="font-size:0.68rem; padding:6px 10px; margin:0.5rem 0; position:relative;">
+/api/status?key=YOUR_KEY
+        <button class="copy-btn" style="top:4px; right:4px;"
+          onclick="copyText('http://127.0.0.1:5000/api/status?key={{ session.api_key }}', this)">Copy</button>
+      </div>
+      <p class="text-dim text-xs">Returns your usage + rate limit info.</p>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

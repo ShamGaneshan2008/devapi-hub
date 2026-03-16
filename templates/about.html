@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+{% block title %}About — DevAPI Hub{% endblock %}
+
+{% block content %}
+<div class="page">
+
+  <!-- Hero -->
+  <div class="hero stagger" style="padding-bottom:2rem;">
+    <div class="hero-eyebrow">About This Platform</div>
+    <h1>
+      Built for<br>
+      <span class="gradient-text">Developers,</span><br>
+      by Developers.
+    </h1>
+    <p class="hero-sub">
+      DevAPI Hub is a community platform where developers publish, discover, and test REST APIs —
+      complete with live testing, key management, ratings, and discussions.
+    </p>
+  </div>
+
+  <!-- Live Stats -->
+  <div class="grid-3 mb-3 stagger">
+    <div class="card" style="text-align:center; padding:2rem 1rem;">
+      <div class="stat-num" data-val="{{ total_users }}" style="font-size:2.8rem;">0</div>
+      <div class="text-dim text-xs mt-1" style="letter-spacing:0.1em; text-transform:uppercase;">Registered Developers</div>
+    </div>
+    <div class="card card-glow" style="text-align:center; padding:2rem 1rem;">
+      <div class="stat-num" data-val="{{ total_apis }}" style="font-size:2.8rem;">0</div>
+      <div class="text-dim text-xs mt-1" style="letter-spacing:0.1em; text-transform:uppercase;">APIs Published</div>
+    </div>
+    <div class="card" style="text-align:center; padding:2rem 1rem;">
+      <div class="stat-num" data-val="{{ total_views }}" style="font-size:2.8rem;">0</div>
+      <div class="text-dim text-xs mt-1" style="letter-spacing:0.1em; text-transform:uppercase;">Total API Views</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- What is DevAPI Hub -->
+  <div class="stagger" style="max-width:720px; margin:0 auto 3rem;">
+    <p class="section-title mb-2">What is DevAPI Hub?</p>
+    <p class="text-muted" style="font-size:1rem; line-height:1.85;">
+      DevAPI Hub is an open developer marketplace where anyone can register, get a unique API key,
+      and immediately start publishing or consuming REST APIs. Whether you've built a weather service,
+      a finance data feed, or an AI-powered endpoint — you can list it here, share it with the community,
+      and get feedback through ratings and comments.
+    </p>
+    <p class="text-muted mt-2" style="font-size:1rem; line-height:1.85;">
+      Every registered user gets a personal API key that authenticates requests to protected platform
+      APIs. The built-in test console lets you fire live HTTP requests and inspect responses, headers,
+      and timing — right from your browser.
+    </p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Features grid -->
+  <div style="margin-bottom:3rem;">
+    <p class="section-title mb-3" style="text-align:center;">Platform Features</p>
+
+    <div class="grid-3 stagger">
+
+      <div class="card reveal">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🔑</div>
+        <h3 class="mb-1">API Key Management</h3>
+        <p class="text-muted text-sm" style="line-height:1.6;">
+          Every user gets a unique <span class="font-mono text-cyan">dah_</span> prefixed API key on registration.
+          Regenerate it anytime from your dashboard — old keys invalidate instantly.
+        </p>
+      </div>
+
+      <div class="card reveal">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🚀</div>
+        <h3 class="mb-1">Publish APIs</h3>
+        <p class="text-muted text-sm" style="line-height:1.6;">
+          List any REST API endpoint with a name, description, and category.
+          Edit or remove your listings anytime. Duplicate endpoints are rejected automatically.
+        </p>
+      </div>
+
+      <div class="card reveal">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">⚡</div>
+        <h3 class="mb-1">Live Test Console</h3>
+        <p class="text-muted text-sm" style="line-height:1.6;">
+          Fire real GET requests to any endpoint and see the JSON response, HTTP status code,
+          response time in milliseconds, and key response headers — all in one view.
+        </p>
+      </div>
+
+      <div class="card reveal">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">🛡️</div>
+        <h3 class="mb-1">Rate Limiting</h3>
+        <p class="text-muted text-sm" style="line-height:1.6;">
+          All protected API calls are rate-limited to 30 requests per minute per key.
+          Responses include <span class="font-mono text-cyan">X-RateLimit-*</span> headers so you always know where you stand.
+        </p>
+      </div>
+
+      <div class="card reveal">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">⭐</div>
+        <h3 class="mb-1">Ratings & Comments</h3>
+        <p class="text-muted text-sm" style="line-height:1.6;">
+          Community members can rate APIs 1–5 stars and leave comments.
+          Ratings are averaged across all votes. Admins can moderate and delete comments.
+        </p>
+      </div>
+
+      <div class="card reveal">
+        <div style="font-size:2rem; margin-bottom:0.75rem;">👑</div>
+        <h3 class="mb-1">Admin Controls</h3>
+        <p class="text-muted text-sm" style="line-height:1.6;">
+          The first registered user becomes admin. Admins get a gold badge, access to the
+          control panel, request logs, user management, and full comment moderation.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Built-in APIs -->
+  <div style="margin-bottom:3rem;">
+    <p class="section-title mb-3" style="text-align:center;">Built-in Protected APIs</p>
+    <div class="grid-3 stagger">
+
+      <div class="card reveal" style="padding:1.2rem;">
+        <div class="flex items-center gap-1 mb-2">
+          <span class="cat-dot cat-weather"></span>
+          <h3>Weather API</h3>
+        </div>
+        <div class="code-block" style="font-size:0.7rem; padding:7px 12px; margin-bottom:0.75rem;">GET /api/weather?key=…</div>
+        <p class="text-dim text-xs">Returns temperature, humidity, wind, UV index for London.</p>
+      </div>
+
+      <div class="card reveal" style="padding:1.2rem;">
+        <div class="flex items-center gap-1 mb-2">
+          <span class="cat-dot cat-other"></span>
+          <h3>Joke API</h3>
+        </div>
+        <div class="code-block" style="font-size:0.7rem; padding:7px 12px; margin-bottom:0.75rem;">GET /api/joke?key=…</div>
+        <p class="text-dim text-xs">Returns a random developer joke. A new one every call.</p>
+      </div>
+
+      <div class="card reveal" style="padding:1.2rem;">
+        <div class="flex items-center gap-1 mb-2">
+          <span class="cat-dot cat-ai"></span>
+          <h3>Status API</h3>
+        </div>
+        <div class="code-block" style="font-size:0.7rem; padding:7px 12px; margin-bottom:0.75rem;">GET /api/status?key=…</div>
+        <p class="text-dim text-xs">Returns your usage count, rate limit remaining, and window info.</p>
+      </div>
+
+    </div>
+    <p class="text-dim text-xs font-mono mt-2" style="text-align:center;">
+      All APIs also accept your key via <span class="text-cyan">X-API-Key</span> header instead of query param.
+    </p>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Tech stack -->
+  <div style="margin-bottom:3rem; max-width:600px; margin-left:auto; margin-right:auto;">
+    <p class="section-title mb-3" style="text-align:center;">Tech Stack</p>
+    <div class="grid-2 stagger">
+      {% set stack = [
+        ("🐍", "Python + Flask", "Backend framework — lightweight, fast, and flexible."),
+        ("🗄️", "SQLite", "Embedded database — zero config, fast reads, ACID compliant."),
+        ("🔐", "Werkzeug", "Password hashing via PBKDF2-SHA256 — no plain-text passwords."),
+        ("🎨", "Outfit + Fira Code", "Typography — pairing a clean sans-serif with a sharp monospace."),
+      ] %}
+      {% for icon, name, desc in stack %}
+      <div class="card reveal" style="padding:1rem;">
+        <div style="font-size:1.5rem; margin-bottom:0.5rem;">{{ icon }}</div>
+        <h3 class="text-cyan mb-1">{{ name }}</h3>
+        <p class="text-dim text-xs" style="line-height:1.6;">{{ desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- CTA -->
+  <div class="stagger" style="text-align:center; padding:3rem 0;">
+    <h2 style="font-size:2rem; letter-spacing:-0.03em; margin-bottom:0.75rem;">
+      Ready to publish your API?
+    </h2>
+    <p class="text-muted text-sm mb-3">Join the community, get your key, and go live in minutes.</p>
+    <div class="flex gap-1" style="justify-content:center; flex-wrap:wrap;">
+      {% if session.get('user') %}
+      <a href="/add_api" class="btn btn-primary">+ Publish an API</a>
+      <a href="/dashboard" class="btn btn-ghost">Go to Dashboard</a>
+      {% else %}
+      <a href="/register" class="btn btn-primary">Create Free Account →</a>
+      <a href="/" class="btn btn-ghost">Browse APIs</a>
+      {% endif %}
+    </div>
+  </div>
+
+</div>
+{% endblock %}

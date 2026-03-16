@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Publish API — DevAPI Hub{% endblock %}
+
+{% block content %}
+<div class="page">
+  <div style="max-width:600px; margin:0 auto;">
+
+    <a href="/dashboard" class="text-dim font-mono text-xs" style="text-decoration:none;">← Back to Dashboard</a>
+
+    <div class="stagger" style="margin: 1.5rem 0 2rem;">
+      <div class="hero-eyebrow" style="display:inline-flex; margin-bottom:1rem;">Publish</div>
+      <h1>List a New API</h1>
+      <p class="text-muted text-sm mt-1">Share your API with the community.</p>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-error">⚠ {{ error }}</div>
+    {% endif %}
+
+    <div class="card reveal">
+      <form method="POST">
+
+        <div class="form-group">
+          <label>API Name</label>
+          <input type="text" name="name" placeholder="e.g. Open Weather API" required maxlength="80"/>
+        </div>
+
+        <div class="form-group">
+          <label>Description</label>
+          <textarea name="description" placeholder="What does this API do? What data does it return?" required maxlength="500"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Endpoint URL</label>
+          <input type="text" name="endpoint" placeholder="https://api.example.com/v1/data" required maxlength="300"/>
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <select name="category">
+            <option value="weather">🌤 Weather</option>
+            <option value="finance">💹 Finance</option>
+            <option value="ai">🤖 AI</option>
+            <option value="maps">🗺 Maps</option>
+            <option value="data">📊 Data</option>
+            <option value="other" selected>📦 Other</option>
+          </select>
+        </div>
+
+        <div class="flex gap-1 mt-2">
+          <button type="submit" class="btn btn-primary">Publish API →</button>
+          <a href="/dashboard" class="btn btn-ghost">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
